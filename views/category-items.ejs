@@ -1,0 +1,39 @@
+<%- include('header'), {seoDetails,categorylist, pathPart} %>
+
+
+<main id="prod-lists">
+  <div id="list">
+    <div id="product-container">
+        <% categoryproducts.forEach(item => { %>
+            <div class="product-card" >
+
+                    <div class="product-image">
+                        <img src="<%= process.env.S3_BASE_URL + item.arrays.arrayOne[0] %>" 
+                             alt="<%= item.seoDetails.title %>">
+                        <div class="overlay">
+                            <a href="/product-enquire/<%= item.seoDetails.slug %>">Enquire Now</a>
+                        </div>
+                    </div>
+                    <a href="/product-details/<%= item.seoDetails.slug %>">
+                    <h2><%= item.seoDetails.title %></h2>
+                </a>
+            </div>
+        <% }) %>
+    </div>
+    <div class="category">
+        <h2 class="prod-title">Product Categories</h2>
+    <div class="category-container">
+        <% categorylist.forEach(item => { %>
+            <li class="category-card">
+                <a class="navlink" href="/category-items/<%= item._id %>"><%= item.name %></a>
+            </li>
+        <% }) %>
+    </div>
+</div>
+</div>
+</main>
+
+
+
+
+<%- include('footer'), { pathPart} %>

@@ -1,0 +1,67 @@
+<body>
+    <% if (popupbanners.length > 0) { %>
+        <div id="popback" onclick="closepopup()"></div>
+        <div id="popup-banner">
+            <button id="close-popup">&times;</button>
+      
+            <!-- Desktop Popup Banner -->
+            <div class="desktop-popup-banner">
+                <div class="swiper-container desktop-banner" id="desktop-popup-banners">
+                    <div class="swiper-wrapper">
+                        <% popupbanners.forEach(slide => { %>
+                            <div class="swiper-slide bgimg">
+                                <img src="<%= process.env.S3_BASE_URL + slide.bannerImage.webView %>" alt="banner"/>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+      
+            <!-- Mobile Popup Banner -->
+            <div class="mobile-popup-banner">
+                <div class="swiper-container mobile-banner" id="mobile-popup-banners">
+                    <div class="swiper-wrapper">
+                        <% popupbanners.forEach(slide => { %>
+                            <div class="swiper-slide bgimg">
+                                <img src="<%= process.env.S3_BASE_URL + slide.bannerImage.mobileView %>" alt="banner"/>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <% } %>
+
+<section id="background">
+<div class="desktop-banner">
+    <div class="swiper-container">
+        <div class="swiper-wrapper" id="desktop-banners">
+            <% banners.forEach(slide => { %>
+                <div class="swiper-slide bgimg">
+            <img src="<%= process.env.S3_BASE_URL + slide.bannerImage.webView %>"  alt="banner"/>
+        </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<div class="mobile-banner">
+    <div class="swiper-container">
+        <div class="swiper-wrapper" id="mobile-banners">
+            <% banners.forEach(slide => { %>
+                <div class="swiper-slide bgimg">
+                <img src="<%= process.env.S3_BASE_URL + slide.bannerImage.mobileView %>" alt="banner"/>
+            </div>
+                <% }) %>
+        </div>
+    </div>
+</div>
+</section>
+   
+   
+    
+   
+
+   
+    
+    </body>

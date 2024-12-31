@@ -1,0 +1,41 @@
+<%- include('header'), {seoDetails,categorylist, pathPart} %>
+<main id="product-full">
+    
+    <div class="product-details">
+        <div class="proddetimage">
+
+        <img id="product-image" alt="Product Image" src="<%= process.env.S3_BASE_URL + productdetails.arrays.arrayOne[0] %>">
+    
+        <div class="enquire-button">
+            <span></span><a href="/product-enquire/<%= productdetails.seoDetails.slug %>">Enquire Now<i class="flaticon-login"></i></a>
+       
+          </div>
+        
+    </div>
+        <div class="des-title">
+        <h2 id="product-title"><%= productdetails.title %></h2>
+        <div id="product-description"><%- productdetails.description %></div>
+    </div>
+    </div>
+    
+    <h2 id="related">Related Products</h2>
+    <div id="related-products" class="related-products">
+        <% relatedproducts.forEach(item => { %>
+            <div class="product-card" >
+
+                    <div class="product-image">
+                        <img src="<%= process.env.S3_BASE_URL + item.arrays.arrayOne[0] %>" 
+                             alt="<%= item.seoDetails.title %>">
+                        <div class="overlay">
+                            <a href="/product-enquire/<%= item.seoDetails.slug %>">Enquire Now</a>
+                        </div>
+                    </div>
+                    <a href="/product-details/<%= item.seoDetails.slug %>">
+                    <h2><%= item.seoDetails.title %></h2>
+                </a>
+            </div>
+        <% }) %>
+    </div>
+</main>
+
+<%- include('footer'), { pathPart} %>

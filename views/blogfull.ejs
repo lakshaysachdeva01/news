@@ -1,0 +1,131 @@
+<%- include('header'), {seoDetails,categorylist, pathPart} %>
+  <main id="blogfull">
+    <div class="blogfull-inner">
+
+      <div id="blog-container">
+
+        <div class="blog-post"><img src="<%= process.env.S3_BASE_URL + blogfull.banner.image %>"
+            alt="<%= blogfull.title %>">
+            
+          <div class="blogfullhead">
+            <h1 class="blog-title">
+              <%= blogfull.title %>
+            </h1>
+            <div class="blog-issued">
+              <span class="date"><i class="far fa-calendar"></i>
+                <%= blogfull.postDate %>
+              </span>
+              <span class="owner"><i class="far fa-user"></i>PAREEK COLOURS</span>
+            </div>
+          </div>
+          <div class="blog-description"><%- blogfull.description %></div>
+          <div class="description-block">
+            <% blogfull.multipleDescriptions.forEach(function(item) { %>
+              <div class="single-description">
+                <%- item.description %>
+
+                  <% if (item.singleImage && item.singleImage.image) { %>
+                    <!-- Display Single Image -->
+                    <img src="<%= process.env.S3_BASE_URL + item.singleImage.image %>" alt="Single Image"
+                      style="max-width: 100%; height: auto;">
+                    <% } %>
+
+                      <% if (item.multipleImages && item.multipleImages.length> 0) { %>
+                        <!-- Display Multiple Images -->
+                        <% item.multipleImages.forEach(function(image) { %>
+                          <img src="<%= process.env.S3_BASE_URL + image %>" alt="Multiple Image"
+                            style="max-width: 100%; height: auto;">
+                          <% }); %>
+                            <% } %>
+              </div>
+              <% }); %>
+          </div>
+
+
+        </div>
+
+        <div class="blog-i">
+          <div class="icons">
+            <ul class="social-media">
+              <li>
+                <a target="_blank" href="http://www.facebook.com/sharer.php?u=https://pareekcolours.com/blogfull?slug=<%= blogfull.seoDetails.slug %>"><i class="fa-brands fa-facebook"></i></a>
+              </li>
+              <li>
+                <a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://pareekcolours.com/blogfull?slug=<%= blogfull.seoDetails.slug %>"><i class="fa-brands fa-linkedin"></i></a>
+              </li>
+              <li>
+                <a target="_blank" href="https://twitter.com/share?url=https://pareekcolours.com/blogfull?slug=<%= blogfull.seoDetails.slug %>&amp;text=<%= blogfull.title %>"><i class="fa-brands fa-twitter"></i></a>
+              </li>
+              <li>
+                <a target="_blank" href="https://api.whatsapp.com/send?phone=+919903257867&amp;text=<%= blogfull.title %> https://pareekcolours.com/blogfull?slug=<%= blogfull.seoDetails.slug %>"><i class="fa-brands fa-whatsapp"></i></a>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="blog-tags">
+        <div class="more-blog">
+          <div class="lb-head">
+            <h4>Latest Blogs</h4>
+
+          </div>
+          <div class="latest-blog">
+            <% latestblog.forEach(item=> { %>
+              <div class="post">
+                <div class="post-thumb">
+                   <div class="lboverlay"></div>
+                  <img src="<%= process.env.S3_BASE_URL + item.banner.image %>" alt=""
+                    style="height:100px;width:100px;object-fit:cover;" />
+
+                </div>
+                <div>
+                <h3><a href="/blogfull/<%= item.seoDetails.slug %>">
+                    <%= item.title %>
+                  </a></h3>
+                <p><i class="far fa-calendar"></i>
+                  <%= item.postDate %>
+                </p>
+              </div>
+              </div>
+
+          
+          <% }) %>
+        </div>
+        </div>
+
+        <div class="blog-tag">
+          <div class="lb-head">
+            <h4>Tags Cloud</h4>
+
+          </div>
+          <div class="tags">
+            <ul class="tags-list clearfix">
+
+              <li>
+                <a href="javascript:void(0);" title=""><span></span>PAREEK</a>
+              </li>
+
+              <li>
+                <a href="javascript:void(0);" title=""><span></span>COLOURS</a>
+              </li>
+
+              <li>
+                <a href="javascript:void(0);" title=""><span></span>KOLKATA</a>
+              </li>
+
+              <li>
+                <a href="javascript:void(0);" title=""><span></span>BLOGS</a>
+              </li>
+
+              <li>
+                <a href="javascript:void(0);" title=""><span></span>WEST BENGAL</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+  </main>
+
+  <%- include('footer') %>

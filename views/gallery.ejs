@@ -1,0 +1,13 @@
+<%- include('header'), {seoDetails,categorylist, pathPart} %>
+
+<div id="port_button">
+    <ul>
+      <li><a href="/gallery" class="nav-link">Images</a></li> 
+      <li><a href="/videogallery" class="nav-link">Videos</a></li> 
+    </ul>
+  </div>
+  <div id="main-gallery">
+<%- include('./partials/gallerycontent') %>
+</div>
+   
+<%- include('footer'), { pathPart} %>

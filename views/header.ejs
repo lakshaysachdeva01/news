@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <title><%= seoDetails?.title %></title>
+
+    <!--Favicon-->
+    <link href="https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="<%= baseUrl %>/assets/css/master.css">
+    <link rel="stylesheet" href="<%= baseUrl %>/assets1/css/flaticon.css">
+    <link rel="stylesheet" href="<%= baseUrl %>/assets1/css/owl.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link rel="icon" href="<%= baseUrl %>/assets/imgs/logo/favicon.png" type="image/png">
+
+  
+    
+    <!-- Meta description (Important for SEO) -->
+    <meta name="description" content="<%= seoDetails?.metaDescription || '' %>">
+
+    <!-- Open Graph meta tags for social sharing -->
+    <meta property="og:title" content="<%= seoDetails?.title || '' %>">
+    <meta property="og:description" content="<%= seoDetails?.metaDescription || '' %>">
+    <meta property="og:image" content="<%= seoDetails?.metaImage || '' %>"> 
+    <meta property="og:type" content="website">
+
+
+    <!-- jquery -->
+    <script src="<%= baseUrl %>/assets/js/jquery-3.6.0.min.js"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0B39LDG1RJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0B39LDG1RJ');
+</script>
+</head>
+<body>
+  <div id="preloader">
+    <img src="<%= baseUrl %>/assets/imgs/logo/pareek-new-logo.png" alt="image">
+  </div> 
+    <nav id="navigationbar">
+        <div class="navbar">
+            <div class="logo">
+           <a href="/"><img src="<%= baseUrl %>/assets/imgs/logo/pareek-new-logo.png" alt="logo"></a> 
+        </div>
+        <div class="desktop-menu">
+          <ul class="menubar">
+              <li class="baritems <%= pathPart === 'home' ? 'active' : '' %>"><a class="navlink" href="/">HOME</a></li>
+              <li class="baritems <%= pathPart === 'about' ? 'active' : '' %>"><a class="navlink" href="/about">ABOUT US</a></li>
+              <li class="baritems <%= pathPart === 'products' ? 'active' : '' %>">
+                  <a class="navlink" href="/products">PRODUCTS <button class="prod_disp"><i class="fa fa-angle-down"></i></button></a>
+                  <ul class="dropdown">
+                      <div class="category-container">
+                        <% categorylist.forEach(item => { %>
+                          <li class="a">
+                              <a class="navlink" href="/category-items/<%= item._id %>" style="text-transform: capitalize !important; "><%= item.name %></a>
+                          </li>
+                      <% }) %>
+                      </div>
+                  </ul>
+              </li>
+              <li class="baritems <%= pathPart === 'services' ? 'active' : '' %>"><a class="navlink" href="/services">SERVICES</a></li>
+              <li class="baritems <%= pathPart === 'dealership' ? 'active' : '' %>"><a class="navlink" href="/dealership">DEALERSHIP</a></li>
+              <li class="baritems <%= pathPart === 'gallery' ? 'active' : '' %>"><a class="navlink" href="/gallery">GALLERY</a></li>
+              <li class="baritems <%= pathPart === 'colour-palette' ? 'active' : '' %>"><a class="navlink" href="/colour-palette">COLOUR PALETTE</a></li>
+              <li class="baritems <%= pathPart === 'contact' ? 'active' : '' %>"><a class="navlink" href="/contact">CONTACT US</a></li>
+          </ul>
+      </div>
+      
+    
+          <button type="button" onclick="openmenu()" id="openn"><i class="flaticon-sort"></i></button>
+          <div id="showmenufull" onclick="closemenu()"> </div> 
+          <div id="showmenu" class="navbar-mobile-wrapper">
+            <div class="logo_menu">
+              <a href="/"><img src="<%= baseUrl %>/assets/imgs/logo/footer-logo.png" alt="logo"></a> 
+           </div>
+          
+              <ul class="menubar-mobile">
+                <li><a class="navlink" href="/">Home</a></li>
+                <li><a class="navlink" href="/about">About Us</a></li>
+                <li>
+                  <a class="navlink" href="/products">Products</a>
+                  <button class="prod_mob" onclick="opendropdown()">
+                    <i class="fa fa-angle-down"></i>
+                  </button>
+                  <ul class="dropdown_menu">
+                    <div class="category-container">
+                      <% categorylist.forEach(item => { %>
+                        <li class="a">
+                            <a class="navlink" href="/category-items/<%= item._id %>" data-category-id="<%= item._id %>" style="text-transform: capitalize;"><%= item.name %></a>
+                        </li>
+                    <% }) %>
+                    </div>
+                  </ul>
+                </li>
+                <li><a class="navlink" href="/services">Services</a></li>
+                <li><a class="navlink" href="/dealership">Dealership</a></li>
+                <li><a class="navlink" href="/gallery">Gallery</a></li>
+                <li><a class="navlink" href="/colour-palette">Colour Palette</a></li>
+                <li><a class="navlink" href="/contact">Contact</a></li>
+                
+                
+            </ul>
+                <div class="contact-info">
+                  <h4>Contact Info</h4>
+                  <ul>
+                    <li>22, B.R.B. Basu Road (Old Canning Street) Room No. 43 & 52 , 5th Floor Opp. Chopra House, Kolkata 700001</li>
+                    <li><a href="tel:9903257867">+91 99032 57867</a></li>
+                    <li><a href="mailto:info@pareekcolours.com">info@pareekcolours.com</a></li>
+                </ul>
+                </div> 
+          
+            <button id="close" onclick="closemenu()">&times;</button>
+            </div>
+        </div>
+    </nav>
+   
+  
+      <div class="icon-bar">
+              
+        <a href="https://api.whatsapp.com/send?phone=+919903257867&amp;text=Hello,%20I%20am%20interested%20in%20buying%20your%20product." target="_blank" class="twitter"><i class="fab fa-whatsapp"></i></a> 
+        <div class="iq-waves">
+        <div class="waves wave-1"></div>
+        <div class="waves wave-2"></div>
+        </div>
+      </div>
+     
+    
+
+
+
+      <%- include('./partials/bookingpopup.ejs')%>
+
+ 
+
+  

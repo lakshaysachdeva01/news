@@ -1,0 +1,42 @@
+<body>
+    <div class="blog-container" id="blog-container">
+        <% blogs.forEach(item => { %>
+            
+            
+    <a href="/blogfull/<%= item.seoDetails.slug %>">   
+                
+                
+
+          <div class="blog-card">
+            <!-- Blog Image --> 
+
+             <div class="blog-image"> 
+                    <img src="<%= process.env.S3_BASE_URL + item.banner.image %>" alt="Blog Cover Image">
+                    <span><i class="far fa-folder"></i>Blog</span>
+                           <div class="overlay">
+                                 <div class="overlay-top"></div>
+                                <div class="overlay-bottom"></div>
+                            </div>
+             </div>
+               
+             <h2 class="blog-title"><%= item.title %></h2>
+    
+                <div class="blog-meta">
+                    <span><i class="far fa-calendar"></i><%= item.postDate %></span>||
+                    <span><i class="far fa-user"></i>PAREEK COLOURS</span>
+                </div>
+    
+                <!-- Blog Footer (Read More link) -->
+                <div class="blog-footer">
+                    <a href="/blogfull/<%= item.seoDetails.slug %>" class="read-more">Read More <i class="flaticon-login"></i></a>
+                </div>
+            </div>
+            
+        </a>
+    
+    
+        <% }) %>
+      </div>
+  
+  
+</body>

@@ -1,0 +1,46 @@
+<%- include('header'), {seoDetails,categorylist, pathPart} %>
+
+<%- include('./partials/banner') %>
+
+<%- include('./partials/homeabout') %>
+
+<%- include('./partials/counter') %>
+
+<section class="home-services">
+    <div id="main-service" >
+      <div class="service-head">
+        <h6 ><i class="flaticon-roof"></i>OUR SERVICES</h6>
+        <p>Exceptional Painting and Waterproofing Services</p>
+    </div>
+      <%- include('./partials/servicescontent.ejs') %>
+    </div>
+</section>
+<section class="home-gallery">
+  <div class="gallery-home-head">
+    <h6><i class="flaticon-roof"></i>work gallery</h6>
+    <h2>Creative Showcase</h2>
+    <p>Highlighting our distinctive works</p>
+  </div>
+<%- include('./partials/gallerycontent') %>
+</section>
+
+
+
+<%- include('./partials/testimonial') %>
+
+
+
+<section id="blogs">
+    <div class="blog-head">
+      <div class="blog-head-text">
+    <h6><i class="flaticon-roof"></i>blogs and announcements</h6>
+    <h3>Fresh <span>Insights and Updates</span></h3>
+  </div>
+  <div class="blog-button">
+    <span></span><a href="/blog">Read More <i class="flaticon-login"></i></a>
+  </div>
+  </div>
+  <%- include('./partials/blogpost.ejs') %>
+   </section>
+
+<%- include('footer'), { pathPart} %>

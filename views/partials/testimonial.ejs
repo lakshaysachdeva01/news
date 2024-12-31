@@ -1,0 +1,46 @@
+<body>
+    <section id="home-testimonials">
+        <div id="test-container">
+            <div class="test-head">
+                <h6><i class="flaticon-roof"></i> Testimonials</h6>
+                <h2>Impressive</h2>
+                <p>Words from Customers</p>
+            </div>
+            <div class="testimonial-carousel owl-carousel owl-theme owl-nav-none owl-dots-none">
+                <% testimonial.forEach((slide) => { %>
+                    <div class="testimonial">
+                        <div class="test-box">
+                            <div class="test-image">
+                                <img 
+                                    src="<%= process.env.S3_BASE_URL + slide.image %>" 
+                                    alt="<%= slide.name %>" 
+                                />
+                                <i class="flaticon-writer"></i>
+                            </div>
+                            <div class="testimonial-text">
+                                <p class="review"><%= slide.review %></p>
+                                <h3 class="name"><%= slide.name %></h3>
+                                <p class="profile"><%= slide.companyProfile %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+                
+            </div>
+        </div>
+    </section>
+    
+
+          
+        
+    
+    
+
+<script src="assets1/js/script.js"></script>
+<script src="assets1/js/jquery.js"></script>
+  <script src="assets1/js/owl.js"></script>
+</body>
+
+
+
+

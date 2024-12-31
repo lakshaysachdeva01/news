@@ -1,0 +1,189 @@
+<%- include('header'), {seoDetails,categorylist, pathPart} %>
+<main id="main-career">
+        
+    <div class="carrer-container">
+        <div class="career-title">
+            <h2>Explore Career Opportunities</h2>
+            <p>Unlock Your Future : Join Our Team and Build Your Career</p>
+        </div>
+          <form id="careerform">
+           
+            <div class="deal-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="name" placeholder="Your name" name="<%= CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.name %>" class="car-input" required>
+            </div>
+          
+            <div class="deal-group">
+                <i class="fa-solid fa-headset"></i>
+                <input type="text" id="phone" placeholder="Phone No." name="<%= CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone %>" class="car-input" required>
+            </div>
+            <div class="deal-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" placeholder="E-mail" name="<%= CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.email %>" class="car-input" required>
+            </div>
+      
+        
+            <div class="deal-group designation">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="dsignation" name="<%= CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.designation %>" placeholder="Your Profile/Designation " class="car-input" required></textarea>
+            </div>
+            <div class="deal-group resume ">
+                <i class="fa-solid fa-file-pdf"></i>
+                <input 
+                type="file" 
+                name="<%= CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.resume %>" 
+                id="resume" 
+                class="car-input" 
+                placeholder="Upload File" 
+                accept=".pdf" 
+                required
+                style=" padding-top: 20px;
+                        height: 45px;
+                        padding-left: 10px;"
+            >
+            
+            </div>
+    
+            <div class="deal-group" style="display: none;" >
+                <input type="hidden" id="websiteProjectId" name="websiteProjectId" value="66e2db81cb3d9f4f044cfc54">
+            </div>
+            <div class="button-container">
+                <div class="g-recaptcha" data-sitekey="6LddcpEqAAAAAHphoB_Wk6RcBSUvLIckyp4EtLfi"></div>
+                <button type="submit" id="submit" class="swipe-gradient-button" style="cursor: pointer;"><span>SUBMIT NOW<i class="flaticon-login"></i></span></button>
+            </div>
+          </form>
+        </div>   
+        
+        
+        
+<div id="alert-box" class="alert-box hidden">
+    <span id="alert-message">Form submitted successfully!</span>
+    <button id="alert-close">&times;</button>
+</div>
+
+</main>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+           
+    document.getElementById('careerform').addEventListener('submit', async function (e) {
+        e.preventDefault(); // Prevent default form submission
+    
+        try {
+            const API_BASE_URL = "<%= API_BASE_URL %>";
+            const websiteID = "<%= websiteID %>";
+            const WEBSITEIDKEY = "<%= WEBSITE_ID_KEY %>";
+            const CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS = <%- JSON.stringify(CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS) %>;
+            
+            const UPLOAD_FILES_END_POINT = `${API_BASE_URL}/third-party/file-upload/upload-files`;
+            const CREATE_CAREER_ENQUIRY_END_POINT = `${API_BASE_URL}/website/career-enquiry/create-career-enquiry`;
+    
+            const careerform = e.target; // Reference to the form element
+            const WEBSITE_ID_KEY = WEBSITEIDKEY;
+    
+            // -------------------------------------------
+            // 1. Upload File
+            const uploadFileData = new FormData();
+            const fileInput = careerform.querySelector(
+                `input[name="${CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.resume}"]`
+            ).files[0];
+    
+            if (!fileInput) {
+                throw new Error("Please upload a resume file.");
+            }
+    
+            uploadFileData.append("file", fileInput);
+    
+            const fileUploadResponse = await fetch(UPLOAD_FILES_END_POINT, {
+                method: "POST",
+                body: uploadFileData,
+            });
+    
+            if (!fileUploadResponse.ok) {
+                throw new Error(`File upload failed! Status: ${fileUploadResponse.status}`);
+            }
+    
+            const fileUploadData = await fileUploadResponse.json();
+            const uploadedResume =
+                fileUploadData?.data?.length > 0
+                    ? fileUploadData?.data[0]?.imageNames[0]
+                    : "";
+    
+            if (!uploadedResume) {
+                throw new Error("File upload did not return a valid file name.");
+            }
+    
+            // -------------------------------------------
+            // 2. Prepare Form Payload
+            const payload = {
+                [CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.name]: careerform.querySelector(
+                    `input[name="${CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.name}"]`
+                ).value,
+                [CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone]: careerform.querySelector(
+                    `input[name="${CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone}"]`
+                ).value,
+                [CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.email]: careerform.querySelector(
+                    `input[name="${CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.email}"]`
+                ).value,
+                [CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.designation]: careerform.querySelector(
+                    `input[name="${CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.designation}"]`
+                ).value,
+                [CAREER_ENQUIRY_DYNAMIC_FIELDS_KEYS.resume]: uploadedResume,
+                [WEBSITE_ID_KEY]: websiteID,
+            };
+    
+            // -------------------------------------------
+            // 3. Submit the Form Data
+            const headers = new Headers({
+                "Content-Type": "application/json",
+            });
+    
+            const response = await fetch(CREATE_CAREER_ENQUIRY_END_POINT, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(payload),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Form submission failed! Status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+    
+            // Success message
+            showAlert("Form submitted successfully!", "success");
+    
+            // Reset form
+            careerform.reset();
+        } catch (error) {
+            // Error message
+            showAlert(`Error: ${error.message}`, "error");
+    
+            console.error("Form submission error:", error);
+        }
+    });
+    
+    // Function to display a styled alert
+    function showAlert(message, type) {
+        const alertBox = document.getElementById('alert-box');
+        const alertMessage = document.getElementById('alert-message');
+    
+        // Set message and class for alert
+        alertMessage.textContent = message;
+        alertBox.className = `alert-box ${type} show`;
+    
+        // Auto-hide alert after 3 seconds
+        setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 3000);
+    }
+    
+    // Close button functionality
+    document.getElementById('alert-close').addEventListener('click', function () {
+        const alertBox = document.getElementById('alert-box');
+        alertBox.classList.remove('show');
+    });
+    
+ 
+ </script>
+<%- include('footer'), { pathPart} %>

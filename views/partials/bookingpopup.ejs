@@ -1,0 +1,139 @@
+<button type="button" class="booksite" id="bookSiteButton" onclick="openBanner()">Book free site visit</button>
+<div id="bookingoverlay" onclick="closeBanner()" ></div>
+<div class="vist-modal">
+    <div class="visit-banner" id="visitBanner">
+        <span class="close-btn" onclick="closeBanner()">&times;</span>
+        <div class="career-title">
+            <h2>Book a Consultation with Us</h2>
+            <p>Experience our expert assessment, consulting, and paint solutions. Schedule a meeting now.</p>
+        </div>
+        <form id="visitform">
+        
+                <div class="deal-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="name" placeholder="Your name" name="<%= POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.name %>" class="car-input" required>
+                </div>
+                <div class="deal-group">
+                    <i class="fa-solid fa-headset"></i>
+                    <input type="tel" id="phone" placeholder="Phone No." name="<%= POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone %>" class="car-input" required>
+                </div>
+            
+         
+                <div class="deal-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="email" placeholder="Email ID" name="<%= POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.email %>" class="car-input" required>
+                </div>
+                <div class="deal-group designation">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="designation" name="<%= POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.designation %>" placeholder="Your Profile/Designation" class="car-input" required>
+                </div>
+           
+            
+                <div class="deal-group resume">
+                    <i class="fa-solid fa-message"></i>
+                    <input type="text"  name="<%= POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.remarks %>" class="car-input" placeholder="Message" style="position: relative;" required>
+                </div>
+          
+            <div class="deal-group" style="display: none;">
+                <input type="hidden" id="websiteProjectId" name="websiteProjectId" value="66e2db81cb3d9f4f044cfc54">
+            </div>
+            <div class="button-container">
+                <div class="g-recaptcha" data-sitekey="6LddcpEqAAAAAHphoB_Wk6RcBSUvLIckyp4EtLfi"></div>
+                <button type="submit" class="swipe-gradient-button"><span>Book For Inspection <i class="flaticon-login"></i></span></button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="alert-box" class="alert-box hidden">
+    <span id="alert-message">Form submitted successfully!</span>
+    <button id="alert-close">&times;</button>
+</div>
+<script>
+    document.getElementById('visitform').addEventListener('submit', async function (e) {
+        e.preventDefault(); // Prevent default form submission
+    
+        try {
+            const API_BASE_URL = "<%= API_BASE_URL %>";
+            const websiteID = "<%= websiteID %>";
+            const WEBSITEIDKEY = "<%= WEBSITE_ID_KEY %>";
+            const POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS = <%- JSON.stringify(POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS) %>;
+            
+            const CREATE_POPUP_ENQUIRY_END_POINT = `${API_BASE_URL}/website/service-enquiry/create-service-enquiry`;
+    
+            const visitform = e.target; // Reference to the form element
+            const WEBSITE_ID_KEY = WEBSITEIDKEY;
+    
+            // -------------------------------------------
+            // 1. Prepare Form Payload
+            const payload = {
+                [POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.name]: visitform.querySelector(
+                    `input[name="${POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.name}"]`
+                ).value,
+                [POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone]: visitform.querySelector(
+                    `input[name="${POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.phone}"]`
+                ).value,
+                [POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.email]: visitform.querySelector(
+                    `input[name="${POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.email}"]`
+                ).value,
+                [POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.designation]: visitform.querySelector(
+                    `input[name="${POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.designation}"]`
+                ).value,
+                [POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.remarks]: visitform.querySelector(
+                    `input[name="${POPUP_ENQUIRY_DYNAMIC_FIELDS_KEYS.remarks}"]`
+                ).value,
+                [WEBSITE_ID_KEY]: websiteID,
+            };
+    
+            // -------------------------------------------
+            // 2. Submit the Form Data
+            const headers = new Headers({
+                "Content-Type": "application/json",
+            });
+    
+            const response = await fetch(CREATE_POPUP_ENQUIRY_END_POINT, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(payload),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Form submission failed! Status: ${response.status}`);
+            }
+    
+            const data = await response.json();
+    
+            // Success message
+            showAlert("Form submitted successfully!", "success");
+    
+            // Reset form
+            visitform.reset();
+        } catch (error) {
+            // Error message
+            showAlert("Form not submitted! Please try again.", "error");
+            console.error("Form submission error:", error);
+        }
+    });
+    
+    // Function to display a styled alert
+    function showAlert(message, type) {
+        const alertBox = document.getElementById('alert-box');
+        const alertMessage = document.getElementById('alert-message');
+    
+        // Set message and class for alert
+        alertMessage.textContent = message;
+        alertBox.className = `alert-box ${type} show`;
+    
+        // Auto-hide alert after 3 seconds
+        setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 3000);
+    }
+    
+    // Close button functionality
+    document.getElementById('alert-close').addEventListener('click', function () {
+        const alertBox = document.getElementById('alert-box');
+        alertBox.classList.remove('show');
+    });
+    
+    
+</script>
